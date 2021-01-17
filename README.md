@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# zdnAdminWeb
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Aliyun 配置说明
 
-## Available Scripts
+### RAM 访问控制
 
-In the project directory, you can run:
+#### 创建 RAM 用户组
 
-### `yarn start`
+1。用户组名：zdnResourceAdmin ； 显示名称：“正当年”媒资管理员
+2。添加权限：AliyunOSSFullAccess ，AliyunVODFullAccess
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### 创建 RAM 用户
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. 创建账号：vod-admin，选择访问方式为：编程访问。
+2. 将此用户加入用户组：zdnResourceAdmin
+3. 记录下此用户的 AccessKey ID 和 AccessKey。
 
-### `yarn test`
+### 为封面上传准备 OSS Bucket
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. 在 ALiyun 上创建 OSS bucket。如： zdn-video-cover
+2. 权限管理 
+    * 读写权限 Bucket ACL 设置为：公共读
+    * Bucket 授权策略, 新增授权：vod-admin， 完全控制
+    * 跨域设置 根据需啊哟设定。例如：来源 设置IP。允许Method：GET、POST、PUT。允许 Header *。
+    
+"视频封面" 的上传要求的系统环境变量设置：
 
-### `yarn build`
+    # ALIYUN OSS
+    REACT_APP_ALIYUN_OSS_BUCKET=https://xxxx.oss-cn-shanghai.aliyuncs.com
+    REACT_APP_ALIYUN_OSS_ID=xxxx
+    REACT_APP_ALIYUN_OSS_KEY=xxxx
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 为视频媒姿上传设置 VOD 服务
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. "配置管理/媒资管理配置/存储管理"，设置为"公共读"，进入对应的存储桶，可以讲读写权限设置为："公共读"。否则，需要的对文件访问进行身份认证。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+短视频上传要求的系统环境变量设置。此处的 REACT_APP_ALIYUN_VOD_ID 和 REACT_APP_ALIYUN_VOD_KEY 可以和上面的 OSS 相同：
 
-### `yarn eject`
+     # ALIYUN VOD - Reference: https://help.aliyun.com/document_detail/101355.html?spm=a2c4g.11186623.6.979.3e8d3aadWOpdmE
+     REACT_APP_ALIYUN_ACCOUNT_ID=xxxx
+     REACT_APP_ALIYUN_VOD_REGION=cn-shanghai
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 启用和运行
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+依赖于两个后台服务：
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* Account Center 用于用户注册和认证访问
+* zdnGraphQL 用于媒资管理
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 设置环境变量
 
-## Learn More
+复制本地环境变量 `cp .env.example .env` 根据实际情况设置。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    # ZDN GraphQL Server
+    REACT_APP_ZDN_SERVER_BASE=https://<zdbGraphql-internet-host>:<port>
+    
+    # For Login
+    REACT_APP_HEADER_FOR_AUTH=token
+    REACT_APP_PASSWORD_RESET_TOKEN_LEN=6
+    # invite and reset password token will be expired in INVITE_TOKEN_TTL seconds
+    REACT_APP_INVITE_TOKEN_TTL=60
+    
+    # ALIYUN VOD - Reference: https://help.aliyun.com/document_detail/101355.html?spm=a2c4g.11186623.6.979.3e8d3aadWOpdmE
+    REACT_APP_ALIYUN_ACCOUNT_ID=xxxx
+    REACT_APP_ALIYUN_VOD_REGION=cn-shanghai
+    
+    # ALIYUN OSS
+    REACT_APP_ALIYUN_OSS_BUCKET=https://xxxx.oss-cn-shanghai.aliyuncs.com
+    REACT_APP_ALIYUN_OSS_ID=xxxx
+    REACT_APP_ALIYUN_OSS_KEY=xxxx
+    
+### Run
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run in dev mode
 
-### Code Splitting
+    yarn
+    yarn start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Deploy to static web server, 运行 build 命令后，将 build 目录的内容复制到 Web 服务器的 Web-Root 下。
+    
+    yarn build
 
-### Analyzing the Bundle Size
+## Run with Docker in develop mode
+    
+    ./docker_builder.sh
+    ./docker_run.sh
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Attention** For production mode, please set the ENV of container according your deployment
