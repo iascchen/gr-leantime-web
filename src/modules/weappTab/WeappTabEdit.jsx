@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {Tabs} from 'antd'
 
-import ZdnContainer from '../../components/ZdnContainer'
+import AdminContainer from '../../components/AdminContainer'
 import EditWidget from './components/EditWidget'
 import WeappTabLabelTabPane from './components/WeappTabLabelTabPane'
 import {useLocation, useParams} from 'react-router-dom'
@@ -30,7 +30,7 @@ const WeappTabEdit = () => {
         setTabCurrent(key)
     }
 
-    return (<ZdnContainer>
+    return (<AdminContainer>
         <h2>小程序频道详情</h2>
         {/*{JSON.stringify(location)}*/}
         <Tabs activeKey={sTabCurrent} onChange={handleTabChange}>
@@ -41,7 +41,7 @@ const WeappTabEdit = () => {
                 <WeappTabLabelTabPane/>
             </TabPane>
         </Tabs>
-    </ZdnContainer>)
+    </AdminContainer>)
 }
 
 export default WeappTabEdit

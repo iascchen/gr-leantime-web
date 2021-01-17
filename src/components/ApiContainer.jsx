@@ -17,7 +17,7 @@ const customFetch = (uri, options) => {
     return fetch(uri, options)
 }
 const httpLink = new HttpLink({
-    uri: `${ACCOUNT_CENTER}/admin`,
+    uri: `${ACCOUNT_CENTER}/api`,
     fetch: customFetch
 })
 const defaultOptions = {
@@ -32,7 +32,7 @@ const defaultOptions = {
 }
 const client = new ApolloClient({ link: httpLink, cache: new InMemoryCache(), defaultOptions })
 
-const ZdnContainer = ({ children }) => {
+const AdminContainer = ({ children }) => {
     return (
         <ApolloProvider client={client}>
             {children}
@@ -40,8 +40,8 @@ const ZdnContainer = ({ children }) => {
     )
 }
 
-ZdnContainer.propTypes = {
+AdminContainer.propTypes = {
     children: PropTypes.any
 }
 
-export default ZdnContainer
+export default AdminContainer

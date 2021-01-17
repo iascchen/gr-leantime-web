@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-
-import ReactGantt from './ReactGantt'
+import ReactGantt from './components/common/ReactGantt'
 
 export default class Gantt extends Component {
     constructor(props) {

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import ZdnContainer from '../../components/ZdnContainer'
+import AdminContainer from '../../components/AdminContainer'
 import RecommendSysParams from './components/RecommendSysParams'
 
 const RecommendSysParamsEdit = () => {
-    return (<ZdnContainer><RecommendSysParams/></ZdnContainer>)
+    return (<AdminContainer><RecommendSysParams/></AdminContainer>)
 }
 
 export default RecommendSysParamsEdit

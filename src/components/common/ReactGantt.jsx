@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import GanttJS from 'frappe-gantt'
 import {bind, clear} from 'size-sensor'
-import {noop, nullop} from './utils/helper'
+import {noop, nullop} from '../../utils/helper'
 
 class ReactGantt extends Component {
     ganttRef = undefined;

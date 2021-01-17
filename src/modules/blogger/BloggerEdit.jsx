@@ -1,10 +1,10 @@
 import React from 'react'
 
-import ZdnContainer from '../../components/ZdnContainer'
+import AdminContainer from '../../components/AdminContainer'
 import EditWidget from './components/EditWidget'
 
 const BloggerEdit = () => {
-    return (<ZdnContainer><EditWidget/></ZdnContainer>)
+    return (<AdminContainer><EditWidget/></AdminContainer>)
 }
 
 export default BloggerEdit
